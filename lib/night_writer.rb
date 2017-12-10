@@ -4,6 +4,10 @@ class NightWriter
     @braille_top = []
     @braille_middle = []
     @braille_bottom = []
+    @big_braille_top = []
+    @big_braille_middle = []
+    @big_braille_bottom = []
+    @mama_braille = []
     @letters = letters
   end
 
@@ -84,11 +88,45 @@ class NightWriter
     end
   end
 
-  def print
+  def braille_shifter
     braille_stacker
-    puts "#{@braille_top.join}\n#{@braille_middle.join}\n#{@braille_bottom.join}"
+    until @braille_top.empty?
+      @big_braille_top << @braille_top.shift(40)
+    end
+    until @braille_middle.empty?
+      @big_braille_middle << @braille_middle.shift(40)
+    end
+    until @braille_bottom.empty?
+      @big_braille_bottom << @braille_bottom.shift(40)
+    end
   end
 
+  def big_braille_combiner
+    braille_shifter
+    counter = 0
+    mama_braille = []
+    @big_braille_top.length.times do
+      @mama_braille << @big_braille_top[counter]
+      @mama_braille << @big_braille_middle[counter]
+      @mama_braille << @big_braille_bottom[counter]
+      counter +=1
+    end
+    @mama_braille
+  end
+
+
+  def print
+    big_braille_combiner
+    @mama_braille.each do |braille_array|
+      puts "#{braille_array.join}\n"
+    end
+  end
+
+  # def print
+  #   braille_stacker
+  #   puts "#{@braille_top.join}\n#{@braille_middle.join}\n#{@braille_bottom.join}"
+  # end
+
 end
-k = NightWriter.new("#aBc")
+k = NightWriter.new("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 k.print
