@@ -122,11 +122,6 @@ class NightWriter
     end
   end
 
-  # def print
-  #   braille_stacker
-  #   puts "#{@braille_top.join}\n#{@braille_middle.join}\n#{@braille_bottom.join}"
-  # end
-
 end
 k = NightWriter.new("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 k.print
