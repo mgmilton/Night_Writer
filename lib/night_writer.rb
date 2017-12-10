@@ -1,3 +1,6 @@
+# TO DO
+# Path ./lib/not working
+# Learn about branches
 class NightWriter
 
   def initialize(letters)
