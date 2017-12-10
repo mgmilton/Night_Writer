@@ -107,14 +107,12 @@ class NightWriter
   def big_braille_combiner
     braille_shifter
     counter = 0
-    mama_braille = []
     @big_braille_top.length.times do
       @mama_braille << @big_braille_top[counter]
       @mama_braille << @big_braille_middle[counter]
       @mama_braille << @big_braille_bottom[counter]
       counter +=1
     end
-    @mama_braille
   end
 
 
@@ -126,5 +124,5 @@ class NightWriter
   end
 
 end
-k = NightWriter.new("AaaaaaaaaaaAASdFSFSA#!? aaaaaaaaaaaaaaaaaaaaaa")
+k = NightWriter.new(" !',-.?abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 k.print
