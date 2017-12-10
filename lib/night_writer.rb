@@ -38,8 +38,8 @@ class NightWriter
                    "x"=>"00..00",
                    "y"=>"00.000",
                    "z"=>"0..000",
-                   " "=>"......",
                    "CapShift"=>".....0",
+                   " "=>"......",
                    "#"=>".0.000",
                    "!"=>"..000.",
                    "'"=>"....0.",
@@ -123,5 +123,5 @@ class NightWriter
   end
 
 end
-k = NightWriter.new("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+k = NightWriter.new("AaaaaaaaaaaAASdFSFSA#!? aaaaaaaaaaaaaaaaaaaaaa")
 k.print
