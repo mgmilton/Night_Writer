@@ -10,7 +10,7 @@ class FileReader
   end
 
   def manipulation
-    times_3 = read_file * 3
+    times_3 = read_file + "DAWGZ"
   end
 
   def write_file
@@ -26,4 +26,6 @@ class FileReader
 end
 
 k = FileReader.new
-k.puts_statement
+# k.write_file
+# k.puts_statement
+k.read_file

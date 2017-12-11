@@ -3,7 +3,7 @@
 # Learn about branches
 class NightWriter
 
-  def initialize(letters)
+  def initialize
     @braille_top = []
     @braille_middle = []
     @braille_bottom = []
@@ -11,7 +11,8 @@ class NightWriter
     @big_braille_middle = []
     @big_braille_bottom = []
     @mama_braille = []
-    @letters = letters
+    @letters = File.readlines(ARGV[0], "r").join
+
   end
 
   BRAILLE_DICTIONARY ={
@@ -117,14 +118,23 @@ class NightWriter
     @mama_braille
   end
 
-
   def print
     big_braille_combiner
+    string = ""
     @mama_braille.each do |braille_array|
-      puts "#{braille_array.join}\n"
+      string << "#{braille_array.join}\n"
     end
+    string
+  end
+
+  def write_file
+    braille = File.open(ARGV[1], "w")
+    characters = File.write(ARGV[1], print)
+    braille.close
+    characters
   end
 
 end
-k = NightWriter.new("AaaaaaaaaaaAASdFSFSA#!? aaaaaaaaaaaaaaaaaaaaaa")
-k.print
+
+object = NightWriter.new
+object.write_file
