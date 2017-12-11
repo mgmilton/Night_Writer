@@ -9,6 +9,9 @@ class NightReader
     @big_braille_bottom = []
     @mama_braille = []
     @braille_by_six = []
+    @eng_array = []
+    @locations = []
+    @eng_string = ""
     @letters = letters
   end
   BRAILLE_DICTIONARY ={
@@ -105,20 +108,54 @@ class NightReader
 
  def braille_to_eng
    tostring_toarraybysix
-   eng_array = []
    @braille_by_six.each do |braille|
-     eng_array << BRAILLE_DICTIONARY.key(braille)
+     @eng_array << BRAILLE_DICTIONARY.key(braille)
    end
  end
 
+ def capshiftfinder
+   braille_to_eng
+   @locations = @eng_array.each_index.select {|index| @eng_array[index] == "CapShift"}
+   @locations.map! do |location|
+     location + 1
+   end
+ end
 
+ def capitalizer
+   capshiftfinder
+   @eng_array.map!.with_index do |value, index|
+     if @locations.include?(index)
+       value.upcase
+     else
+       value
+     end
+   end
+ end
+
+ def capshift_deleter
+   capitalizer
+   @eng_array.delete("CapShift")
+ end
+
+ def eng_array_to_string
+   capshift_deleter
+   @eng_string = @eng_array.join("")
+ end
+
+ def print
+   eng_array_to_string
+   p @eng_string
+ end
 
 end
 
-l = NightReader.new("0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.
-................................................................................
-................................................................................
-0.
-..
-..")
-l.braille_to_eng
+l = NightReader.new("..............0.0.00000.00000..0.00.0.00000.00000..0.00.0..000000...0...0...00..
+..00..0...000...0....0.00.00000.00..0....0.00.00000.00..0.00...0.0......0.......
+..0.0...00.000....................0.0.0.0.0.0.0.0.0.0.0000.0000000.0...0...0...0
+00..0...00..00..0....0...0..0...0...00..00..0...00..00..0....0...0..0...0....0..
+.0...0..0...00..00..0...00......0........0...0..0...00..00..0...00......0...00..
+...0...0...0...0...0...0...00..00..00..00..00..00..00..00..00..00..000.000.0.0.0
+00..00..0.
+.....0...0
+00.000.000")
+l.print
