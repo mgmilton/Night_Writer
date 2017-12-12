@@ -83,60 +83,45 @@ class NightWriter
 
   def braille_top_maker(braille_top= [])
     string_splitter_by_two.each_with_index do |value, index|
-      if index % 3 == 0
-        braille_top << value
-      end
+      index_checker(braille_top, value, index, 0)
     end
     braille_top
   end
 
   def braille_middle_maker(braille_middle= [])
     string_splitter_by_two.each_with_index do |value, index|
-      if index % 3 == 1
-        braille_middle << value
-      end
+      index_checker(braille_middle, value, index, 1)
     end
     braille_middle
   end
 
   def braille_bottom_maker(braille_bottom= [])
     string_splitter_by_two.each_with_index do |value, index|
-      if index % 3 == 2
-        braille_bottom << value
-      end
+      index_checker(braille_bottom, value, index, 2)
     end
     braille_bottom
   end
 
   def big_braille_top_maker(top= [], big_braille_top= [])
-    if top.class != Array
-      raise ArgumentError
-    else
-      until top.empty?
-        big_braille_top << top.shift(40)
-      end
+    argument_raiser(top)
+    until top.empty?
+      big_braille_top << top.shift(40)
     end
     big_braille_top
   end
 
   def big_braille_middle_maker(middle= [], big_braille_middle= [])
-    if middle.class != Array
-      raise ArgumentError
-    else
-      until middle.empty?
-        big_braille_middle << middle.shift(40)
-      end
+    argument_raiser(middle)
+    until middle.empty?
+      big_braille_middle << middle.shift(40)
     end
     big_braille_middle
   end
 
   def big_braille_bottom_maker(bottom= [], big_braille_bottom= [])
-    if bottom.class != Array
-      raise ArgumentError
-    else
-      until bottom.empty?
-        big_braille_bottom << bottom.shift(40)
-      end
+    argument_raiser(bottom)
+    until bottom.empty?
+      big_braille_bottom << bottom.shift(40)
     end
     big_braille_bottom
   end
@@ -160,6 +145,19 @@ class NightWriter
     big_bottom = big_braille_bottom_maker(bottom)
     big_braille_combiner(big_top, big_middle, big_bottom)
   end
+
+  def index_checker(braille, value, index, remainder)
+    if index % 3 == remainder
+      braille << value
+    end
+  end
+
+  def argument_raiser(section, classtype= Array)
+    if section.class != classtype
+      raise ArgumentError
+    end
+  end
+
 
   def print
     big_braille_caller.each do |braille_array|

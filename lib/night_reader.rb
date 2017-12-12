@@ -3,6 +3,7 @@ class NightReader
   def initialize(letters= "")
     @letters = letters
   end
+
   BRAILLE_DICTIONARY ={
                   "a"=> "0.....",
                    "b"=>"0.0...",
@@ -40,65 +41,59 @@ class NightReader
                    "?"=> "..0.00",
                    "."=>"..00.0"}
 
-def big_braille_top_maker(big_braille_top= [])
-  @letters.each_line.with_index do |line, index|
-    if index % 3 == 0
-      big_braille_top << line.split("")
-    end
-  end
-  big_braille_top
-end
+ def big_braille_top_maker(big_braille_top= [])
+   @letters.each_line.with_index do |line, index|
+     line_splitter_per_index(big_braille_top, line, index, 0)
+   end
+   big_braille_top
+ end
 
-def big_braille_middle_maker(big_braille_middle= [])
-  @letters.each_line.with_index do |line, index|
-    if index % 3 == 1
-      big_braille_middle << line.split("")
-    end
-  end
-  big_braille_middle
-end
+ def big_braille_middle_maker(big_braille_middle= [])
+   @letters.each_line.with_index do |line, index|
+     line_splitter_per_index(big_braille_middle, line, index, 1)
+   end
+   big_braille_middle
+ end
 
-def big_braille_bottom_maker(big_braille_bottom= [])
-  @letters.each_line.with_index do |line, index|
-    if index % 3 == 2
-      big_braille_bottom << line.split("")
-    end
-  end
-  big_braille_bottom
-end
+ def big_braille_bottom_maker(big_braille_bottom= [])
+   @letters.each_line.with_index do |line, index|
+     line_splitter_per_index(big_braille_bottom, line, index, 2)
+   end
+   big_braille_bottom
+ end
 
  def big_braille_top_popper(top= [])
-   top.map do |line|
-     line.pop
-   end
+   popper(top)
    top
  end
 
  def big_braille_middle_popper(middle= [])
-   middle.map do |line|
-     line.pop
-   end
+   popper(middle)
    middle
  end
 
  def big_braille_bottom_popper(bottom= [])
-   bottom.map do |line|
-     line.pop
-   end
+   popper(bottom)
    bottom
  end
 
  def big_braille_top_flattener(top_pop= [])
-   top_pop.flatten
+   flattener(top_pop)
  end
 
  def big_braille_middle_flattener(middle_pop= [])
-   middle_pop.flatten
+   flattener(middle_pop)
  end
 
  def big_braille_bottom_flattener(bottom_pop= [])
-   bottom_pop.flatten
+   flattener(bottom_pop)
  end
+
+ # def big_braille_caller(braille_section, popped_section, flat_section)
+ #   section = braille_section
+ #   popped = popped_section(section)
+ #   flattened = flat_section(popped)
+ # end
 
  def big_braille_top_caller
    top = big_braille_top_maker
@@ -156,12 +151,15 @@ end
    end
    locs_plus_one
  end
- #
- # def capitalizer(english)
+
+ # def capitalizer_new(english)
  #   english.each_with_index do |value, index|
  #     if value == "CapShift"
- #        english[index+1] = value.upcase
- #
+ #       english[index+1] = value.upcase
+ #     end
+ #   end
+ # end
+
 
  def capitalizer(english, locs_plus_one= [])
    english.map!.with_index do |value, index|
@@ -190,6 +188,22 @@ end
    new_english = capitalizer(english, locs_plus_one)
    english_no_capshift = capshift_deleter(new_english)
    eng_array_to_string(english_no_capshift)
+ end
+
+ def line_splitter_per_index(braille, line, index, remainder)
+   if index % 3 == remainder
+     braille << line.split("")
+   end
+ end
+
+ def popper(lines= [])
+   lines.map do |line|
+     line.pop
+   end
+ end
+
+ def flattener(nestedarray= [])
+   nestedarray.flatten
  end
 
  def print

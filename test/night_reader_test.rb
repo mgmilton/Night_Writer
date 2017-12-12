@@ -48,7 +48,7 @@ class NightReaderTest < Minitest::Test
   end
 
   def test_big_braille_bottom_maker_returns_nested_array_containing_every_third_line
-#does it know to insert line break last char?
+    #does it know to insert line break last char?
     nightreader = NightReader.new("0.\n..\n..\n")
     assert_equal [[".", ".", "\n"]], nightreader.big_braille_bottom_maker
     nightreader = NightReader.new("0.\n..\n..\n.0\n..\n..\n")
