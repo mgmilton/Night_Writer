@@ -1,16 +1,7 @@
-# TO DO
-# Path ./lib/not working
-# Learn about branches
+
 class NightWriter
 
-  def initialize(letters)
-    @braille_top = []
-    @braille_middle = []
-    @braille_bottom = []
-    @big_braille_top = []
-    @big_braille_middle = []
-    @big_braille_bottom = []
-    @mama_braille = []
+  def initialize(letters= "")
     @letters = letters
   end
 
@@ -51,78 +42,131 @@ class NightWriter
                    "?"=> "..0.00",
                    "."=>"..00.0"}
 
-  def capitalized_checker
-    special_chars = [" ", "#", "!", "'", ",","-", "?", "."]
-    letters_array = @letters.split("")
-    new_letters = []
-    letters_array.each do |letter|
-      if special_chars.include?(letter)
-        new_letters << letter
-      elsif letter == letter.upcase
-        new_letters << "CapShift"
-        new_letters << letter.downcase
-      else
-        new_letters << letter
-      end
+  def letter_array_generator
+    @letters.split("")
+  end
+
+  def capitalized_checker(new_letters= [])
+    letter_array_generator.each do |letter|
+      capshift_adder(letter, new_letters)
     end
     new_letters
   end
 
-
-  def string_splitter
-    braille_array = []
-    capitalized_checker.each do |x|
-      braille_array << BRAILLE_DICTIONARY[x]
+  def capshift_adder(letter, downcase_letters)
+    if letter == letter.upcase && letter != letter.downcase
+      downcase_letters << "CapShift"
+      downcase_letters << letter.downcase
+    else
+      downcase_letters << letter
     end
-    braille_string = braille_array.join("")
-    braille_array_by_two =  braille_string.scan(/.{2}/)
   end
 
+  def english_to_braille_translator(braille_array= [])
+    capitalized_checker.each do |character|
+      braille_array << BRAILLE_DICTIONARY[character]
+    end
+    braille_array
+  end
 
-  def braille_stacker
-    string_splitter.each_with_index do |value, index|
+  def braille_array_compactor
+    english_to_braille_translator.compact
+  end
+
+  def braille_string_generator
+    braille_array_compactor.join("")
+  end
+
+  def string_splitter_by_two
+    braille_array_by_two =  braille_string_generator.scan(/.{2}/)
+  end
+
+  def braille_top_maker(braille_top= [])
+    string_splitter_by_two.each_with_index do |value, index|
       if index % 3 == 0
-        @braille_top << value
-      elsif (index-1) % 3 == 0
-        @braille_middle << value
-      elsif (index+1) % 3 == 0
-        @braille_bottom << value
+        braille_top << value
       end
     end
+    braille_top
   end
 
-  def braille_shifter
-    braille_stacker
-    until @braille_top.empty?
-      @big_braille_top << @braille_top.shift(40)
+  def braille_middle_maker(braille_middle= [])
+    string_splitter_by_two.each_with_index do |value, index|
+      if index % 3 == 1
+        braille_middle << value
+      end
     end
-    until @braille_middle.empty?
-      @big_braille_middle << @braille_middle.shift(40)
-    end
-    until @braille_bottom.empty?
-      @big_braille_bottom << @braille_bottom.shift(40)
-    end
+    braille_middle
   end
 
-  def big_braille_combiner
-    braille_shifter
-    counter = 0
-    @big_braille_top.length.times do
-      @mama_braille << @big_braille_top[counter]
-      @mama_braille << @big_braille_middle[counter]
-      @mama_braille << @big_braille_bottom[counter]
+  def braille_bottom_maker(braille_bottom= [])
+    string_splitter_by_two.each_with_index do |value, index|
+      if index % 3 == 2
+        braille_bottom << value
+      end
+    end
+    braille_bottom
+  end
+
+  def big_braille_top_maker(top= [], big_braille_top= [])
+    if top.class != Array
+      raise ArgumentError
+    else
+      until top.empty?
+        big_braille_top << top.shift(40)
+      end
+    end
+    big_braille_top
+  end
+
+  def big_braille_middle_maker(middle= [], big_braille_middle= [])
+    if middle.class != Array
+      raise ArgumentError
+    else
+      until middle.empty?
+        big_braille_middle << middle.shift(40)
+      end
+    end
+    big_braille_middle
+  end
+
+  def big_braille_bottom_maker(bottom= [], big_braille_bottom= [])
+    if bottom.class != Array
+      raise ArgumentError
+    else
+      until bottom.empty?
+        big_braille_bottom << bottom.shift(40)
+      end
+    end
+    big_braille_bottom
+  end
+
+  def big_braille_combiner(top= [], middle= [], bottom= [], counter= 0, total_braille= [])
+    top.length.times do
+      total_braille << top[counter]
+      total_braille << middle[counter]
+      total_braille << bottom[counter]
       counter +=1
     end
+    total_braille
   end
 
+  def big_braille_caller
+    top = braille_top_maker
+    middle = braille_middle_maker
+    bottom = braille_bottom_maker
+    big_top = big_braille_top_maker(top)
+    big_middle =  big_braille_middle_maker(middle)
+    big_bottom = big_braille_bottom_maker(bottom)
+    big_braille_combiner(big_top, big_middle, big_bottom)
+  end
 
   def print
-    big_braille_combiner
-    @mama_braille.each do |braille_array|
+    big_braille_caller.each do |braille_array|
       puts "#{braille_array.join}\n"
     end
   end
-
 end
+
 k = NightWriter.new(" !',-.?abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 k.print
