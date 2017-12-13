@@ -42,6 +42,7 @@ class NightReader
                    "."=>"..00.0"}
 
  def big_braille_top_maker(big_braille_top= [])
+   argument_raiser(big_braille_top)
    @letters.each_line.with_index do |line, index|
      line_splitter_per_index(big_braille_top, line, index, 0)
    end
@@ -49,6 +50,7 @@ class NightReader
  end
 
  def big_braille_middle_maker(big_braille_middle= [])
+   argument_raiser(big_braille_middle)
    @letters.each_line.with_index do |line, index|
      line_splitter_per_index(big_braille_middle, line, index, 1)
    end
@@ -56,6 +58,7 @@ class NightReader
  end
 
  def big_braille_bottom_maker(big_braille_bottom= [])
+   argument_raiser(big_braille_bottom)
    @letters.each_line.with_index do |line, index|
      line_splitter_per_index(big_braille_bottom, line, index, 2)
    end
@@ -89,12 +92,6 @@ class NightReader
    flattener(bottom_pop)
  end
 
- # def big_braille_caller(braille_section, popped_section, flat_section)
- #   section = braille_section
- #   popped = popped_section(section)
- #   flattened = flat_section(popped)
- # end
-
  def big_braille_top_caller
    top = big_braille_top_maker
    top_pop = big_braille_top_popper(top)
@@ -113,7 +110,7 @@ class NightReader
    bottom_flat = big_braille_bottom_flattener(bottom_pop)
  end
 
- def total_braille_maker(top_flat= [], middle_flat= [], bottom_flat= [], counter= 0, total_braille= [])
+ def total_braille_maker(counter= 0, total_braille= [])
    big_braille_top_caller.length.times do
      total_braille << big_braille_top_caller[counter]
      total_braille << big_braille_top_caller[counter+1]
@@ -126,15 +123,17 @@ class NightReader
    total_braille.compact!
  end
 
- def total_braille_string
+ def total_braille_string(total_braille_maker= [])
    total_string = total_braille_maker.join("")
  end
 
- def total_braille_by_six
+ def total_braille_by_six(total_braille_string= "")
     total_braille_by_six = total_braille_string.scan(/.{6}/)
  end
 
- def braille_to_english(english_array= [])
+ def braille_to_english(total_braille_by_six= [], english_array= [])
+   argument_raiser(total_braille_by_six)
+   argument_raiser(english_array)
    total_braille_by_six.each do |braille|
      english_array << BRAILLE_DICTIONARY.key(braille)
    end
@@ -142,24 +141,17 @@ class NightReader
  end
 
  def capshift_finder(english= [])
+   argument_raiser(english)
    locations = english.each_index.select {|index| english[index] == "CapShift"}
  end
 
  def locations_plus_one(locations= [], locs_plus_one= [])
+   argument_raiser(locations)
    locations.each do |location|
      locs_plus_one << location + 1
    end
    locs_plus_one
  end
-
- # def capitalizer_new(english)
- #   english.each_with_index do |value, index|
- #     if value == "CapShift"
- #       english[index+1] = value.upcase
- #     end
- #   end
- # end
-
 
  def capitalizer(english, locs_plus_one= [])
    english.map!.with_index do |value, index|
@@ -173,11 +165,13 @@ class NightReader
  end
 
  def capshift_deleter(english= [])
+   argument_raiser(english)
    english.delete("CapShift")
    english
  end
 
  def eng_array_to_string(english_no_capshift= [])
+   argument_raiser(english_no_capshift)
    english_no_capshift.join("")
  end
 
@@ -191,23 +185,32 @@ class NightReader
  end
 
  def line_splitter_per_index(braille, line, index, remainder)
+   argument_raiser(braille)
    if index % 3 == remainder
      braille << line.split("")
    end
  end
 
  def popper(lines= [])
+   argument_raiser(lines)
    lines.map do |line|
      line.pop
    end
  end
 
  def flattener(nestedarray= [])
+   argument_raiser(nestedarray)
    nestedarray.flatten
  end
 
+ def argument_raiser(section, classtype= Array)
+   if section.class != classtype
+     raise ArgumentError
+   end
+ end
+
  def print
-   puts capshift_caller
+   capshift_caller
  end
 
 end
