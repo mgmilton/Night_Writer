@@ -123,16 +123,15 @@ class NightReader
    total_braille.compact!
  end
 
- def total_braille_string(total_braille_maker= [])
+ def total_braille_string
    total_string = total_braille_maker.join("")
  end
 
- def total_braille_by_six(total_braille_string= "")
+ def total_braille_by_six
     total_braille_by_six = total_braille_string.scan(/.{6}/)
  end
 
- def braille_to_english(total_braille_by_six= [], english_array= [])
-   argument_raiser(total_braille_by_six)
+ def braille_to_english(english_array= [])
    argument_raiser(english_array)
    total_braille_by_six.each do |braille|
      english_array << BRAILLE_DICTIONARY.key(braille)
@@ -210,7 +209,7 @@ class NightReader
  end
 
  def print
-   capshift_caller
+   puts capshift_caller
  end
 
 end

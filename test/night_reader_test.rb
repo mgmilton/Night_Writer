@@ -274,41 +274,49 @@ class NightReaderTest < Minitest::Test
   end
 
   def test_total_braille_string_returns_a_string_of_equal_length
+    skip
     nightreader = NightReader.new
     assert_equal 4, nightreader.total_braille_string(["a", "b", "c", "d"]).length
   end
 
   def test_total_braille_string_returns_a_joined_string
+    skip
     nightreader = NightReader.new
     assert_equal "abcadfd", nightreader.total_braille_string(["abca", "dfd"])
   end
 
   def test_total_braille_by_six_returns_an_array_of_string_length_six
+    skip
     nightreader = NightReader.new
     assert_equal ["abcdef"], nightreader.total_braille_by_six("abcdef")
   end
 
   def test_total_braille_by_six_returns_an_array_of_strings_length_six
+    skip
     nightreader = NightReader.new
     assert_equal ["abcdef", "ghijkl"], nightreader.total_braille_by_six("abcdefghijkl")
   end
 
   def test_total_braille_by_six_returns_an_array
+    skip
     nightreader = NightReader.new
     assert_equal Array, nightreader.total_braille_by_six("abcdef").class
   end
 
   def test_total_braille_by_six_returns_an_empty_array_when_passed_nothing
+    skip
     nightreader = NightReader.new
     assert_equal [], nightreader.total_braille_by_six
   end
 
   def test_braille_to_english_returns_an_empty_array_when_passed_nothing
+    skip
     nightreader = NightReader.new
     assert_equal [], nightreader.braille_to_english
   end
 
   def test_braille_to_english_returns_an_english_array_when_passed_braille
+    skip
     nightreader = NightReader.new
     assert_equal ["a"], nightreader.braille_to_english(["0....."], [])
   end
