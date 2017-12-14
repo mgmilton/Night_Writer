@@ -4,8 +4,8 @@ require './lib/english_to_braille'
 
 class EnglishToBrailleTest < Minitest::Test
   def test_englishtobraille_instantiates
-  english_to_braille = EnglishToBraille.new
-  assert_instance_of EnglishToBraille, english_to_braille
+    english_to_braille = EnglishToBraille.new
+    assert_instance_of EnglishToBraille, english_to_braille
   end
 
   def test_capitalized_checker_returns_capshift_lowercase_letter
