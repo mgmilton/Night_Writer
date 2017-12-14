@@ -427,14 +427,14 @@ class BrailleToEnglishTest < Minitest::Test
     end
   end
 
-  def argument_raiser_raises_argument_when_passed_a_string
+  def test_argument_raiser_raises_argument_when_passed_a_string
     braille_to_english = BrailleToEnglish.new
     assert_raises ArgumentError do
       braille_to_english  .argument_raiser("S")
     end
   end
 
-  def argument_raiser_raises_argument_when_passed_a_float
+  def test_argument_raiser_raises_argument_when_passed_a_float
     braille_to_english = BrailleToEnglish.new
     assert_raises ArgumentError do
       braille_to_english.argument_raiser(1.2)
