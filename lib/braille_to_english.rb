@@ -1,4 +1,3 @@
-
 class BrailleToEnglish
 
   def initialize(letters= "")
