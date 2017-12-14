@@ -224,4 +224,23 @@ class EnglishToBrailleTest < Minitest::Test
     end
   end
 
+  def argument_raiser_raises_argument_when_passed_a_string
+    english_to_braille = EnglishToBraille.new
+    assert_raises ArgumentError do
+      english_to_braille.argument_raiser("S")
+    end
+  end
+
+  def argument_raiser_raises_argument_when_passed_a_float
+    english_to_braille = EnglishToBraille.new
+    assert_raises ArgumentError do
+      english_to_braille.argument_raiser(1.2)
+    end
+  end
+
+  def test_print_returns_a_string
+    english_to_braille = EnglishToBraille.new
+    assert_equal String, english_to_braille.print.class
+  end
+
 end

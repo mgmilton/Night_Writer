@@ -160,11 +160,11 @@ class EnglishToBraille
 
 
   def print
-    string = ""
+    braille_string = ""
     big_braille_caller.each do |braille_array|
-      string += braille_array.join
-      string += "\n"
+      braille_string += braille_array.join
+      braille_string += "\n"
     end
-    string
+    braille_string
   end
 end
